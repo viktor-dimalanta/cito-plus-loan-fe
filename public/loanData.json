@@ -1,0 +1,35 @@
+[
+  {
+    "id": "7a76f392-b2f2-490c-a931-2383160c237c",
+    "applicantName": "John Doe",
+    "requestedAmount": 5000,
+    "status": "APPROVED",
+    "createdAt": "2025-02-20T04:32:23.079Z",
+    "updatedAt": "2025-02-20T04:35:44.409Z"
+  },
+  {
+    "id": "7a76f392-b2f2-490c-a931-2383160c234c",
+    "applicantName": "John Dane",
+    "requestedAmount": 4000,
+    "status": "APPROVED",
+    "createdAt": "2025-02-20T04:32:23.079Z",
+    "updatedAt": "2025-02-20T04:35:44.409Z"
+  },
+  {
+    "id": "7a76f392-b2f2-490c-a931-2383160c235c",
+    "applicantName": "John Donovan",
+    "requestedAmount": 3000,
+    "status": "PENDING",
+    "createdAt": "2025-02-20T04:32:23.079Z",
+    "updatedAt": "2025-02-20T04:35:44.409Z"
+  },
+  {
+    "id": "7a76f392-b2f2-490c-a931-2383160c231c",
+    "applicantName": "JAne Donovan",
+    "requestedAmount": 6000,
+    "status": "CANCELLED",
+    "createdAt": "2025-02-20T04:32:23.079Z",
+    "updatedAt": "2025-02-20T04:35:44.409Z"
+  }
+]
+  
