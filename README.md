@@ -63,7 +63,8 @@ npm run lint
 
 ## License
 
-Developed by Viktor Angelo Dimalanta, MSIT
+Viktor Angelo Dimalanta, MSIT
+https://www.linkedin.com/in/viktor-dimalanta-msit/
 
 
 
