@@ -1,4 +1,4 @@
-# Front-End Project
+# Cito-Plus-FE
 
 This repository contains the front-end code for Citoplus. It is built using modern web technologies, including [Vue.js/React.js/Angular, Tailwind CSS, TypeScript, etc.]. This front-end connects to the back-end via API and is responsible for rendering the user interface and interacting with the server.
 
