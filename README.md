@@ -36,9 +36,9 @@ Follow these steps to get your front-end up and running.
 
 1. Start the development server:
 
-```
-npm start
-```
+   ```
+   npm start
+   ```
 
 2. Open your browser and navigate to http://localhost:3000 to see the application in action.
 
@@ -47,9 +47,9 @@ npm start
 
 1. Run unit tests with:
 
-```
-npm run test
-```
+   ```
+   npm run test
+   ```
 
 2. This will run all the unit tests in the project and output the results.
 
@@ -57,9 +57,9 @@ npm run test
 
 We use ESLint and Prettier to ensure consistent code quality and formatting.
 
-```
-npm run lint
-```
+   ```
+   npm run lint
+   ```
 
 ## License
 
