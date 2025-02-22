@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { Card, CardContent, Typography, Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle,Select,MenuItem } from "@mui/material";
-import { Table, TableHead, TableRow, TableCell, TableBody } from "@mui/material";
+import { Card, CardContent, Typography, Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, Table, TableHead, TableRow, TableCell, TableBody, TablePagination, Box, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { v4 as uuidv4 } from "uuid";
 
@@ -16,6 +15,9 @@ export default function LoanSummary() {
     status: "",
   });
   const [editMode, setEditMode] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   useEffect(() => {
     fetch("http://localhost:5000/loans")
@@ -44,7 +46,6 @@ export default function LoanSummary() {
   };
 
   const handleSubmit = async () => {
-    console.log(formData)
     if (editMode) {
       await fetch(`http://localhost:5000/loans/${formData.id}`, {
         method: "PUT",
@@ -79,7 +80,26 @@ export default function LoanSummary() {
     setConfirmOpen(false);
   };
 
-  const summary = loanData.reduce((acc, loan) => {
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const filteredLoans = loanData.filter(
+    (loan) =>
+      loan.applicantName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      loan.status.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const summary = filteredLoans.reduce((acc, loan) => {
     if (!acc[loan.status]) {
       acc[loan.status] = { count: 0, total: 0 };
     }
@@ -99,6 +119,13 @@ export default function LoanSummary() {
       <Typography variant="h4" gutterBottom>
         Loan Applications Summary
       </Typography>
+      <TextField
+        label="Search Loans"
+        variant="outlined"
+        value={searchTerm}
+        onChange={handleSearchChange}
+        fullWidth
+      />
       <Button variant="contained" color="primary" onClick={() => handleOpen()}>Add Loan</Button>
       <Card>
         <CardContent>
@@ -112,7 +139,7 @@ export default function LoanSummary() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {loanData.map((loan) => (
+              {filteredLoans.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((loan) => (
                 <TableRow key={loan.id}>
                   <TableCell>{loan.applicantName}</TableCell>
                   <TableCell>${loan.requestedAmount.toLocaleString()}</TableCell>
@@ -125,6 +152,15 @@ export default function LoanSummary() {
               ))}
             </TableBody>
           </Table>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={filteredLoans.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
         </CardContent>
       </Card>
       <Card>
@@ -143,18 +179,33 @@ export default function LoanSummary() {
           </ResponsiveContainer>
         </CardContent>
       </Card>
+
+      {/* Footer */}
+      <Box mt={4} p={2} bgcolor="background.default" textAlign="center">
+        <Typography variant="body2" color="textSecondary">
+          <strong>Total Loans:</strong> {filteredLoans.length} | <strong>Total Amount:</strong> ${filteredLoans.reduce((acc, loan) => acc + parseFloat(loan.requestedAmount), 0).toLocaleString()}
+        </Typography>
+      </Box>
+
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>{editMode ? "Edit Loan" : "Add Loan"}</DialogTitle>
         <DialogContent>
           <TextField label="Applicant Name" name="applicantName" fullWidth margin="dense" value={formData.applicantName} onChange={handleChange} />
           <TextField label="Requested Amount" name="requestedAmount" type="number" fullWidth margin="dense" value={formData.requestedAmount} onChange={handleChange} />
-          <Select label="Status" name="status" fullWidth margin="dense" value={formData.status} onChange={handleChange}>
-            <MenuItem value="APPROVED">APPROVED</MenuItem>
-            <MenuItem value="PENDING">PENDING</MenuItem>
-            <MenuItem value="CANCELLED">CANCELLED</MenuItem>
-          </Select>
- 
-        </DialogContent>
+          <FormControl fullWidth margin="dense">
+            <InputLabel>Status</InputLabel>
+            <Select
+              label="Status"
+              name="status"
+              value={formData.status}
+              onChange={handleChange}
+              fullWidth
+            >
+              <MenuItem value="APPROVED">APPROVED</MenuItem>
+              <MenuItem value="PENDING">PENDING</MenuItem>
+              <MenuItem value="CANCELLED">CANCELLED</MenuItem>
+            </Select>
+          </FormControl>        </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
           <Button onClick={handleSubmit} color="primary">{editMode ? "Update" : "Add"}</Button>
