@@ -17,13 +17,13 @@ Follow these steps to get your front-end up and running.
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/your-repo-name.git
+   git clone https://github.com/viktor-dimalanta/cito-plus-loan-fe.git
    ```
 
 2. Navigate to the project directory:
 
    ```
-   cd your-repo-name
+   cd cito-plus-loan-fe
    ```
 
 3. Install dependencies
