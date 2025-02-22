@@ -22,9 +22,9 @@ Follow these steps to get your front-end up and running.
 
 2. Navigate to the project directory:
 
-```
-cd your-repo-name
-```
+   ```
+   cd your-repo-name
+   ```
 
 3. Install dependencies
 
